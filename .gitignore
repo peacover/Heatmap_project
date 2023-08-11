@@ -36,5 +36,5 @@ next-env.d.ts
 
 .env
 
-./test_data.txt
+/test_data.txt
 
