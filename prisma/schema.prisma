@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Mentalome {
+  id             Int    @id @default(autoincrement())
+  gene_ids       String
+  value          Float
+  sra            String
+  abbreviation   String
+  expriment_type String
+  disease        String
+}
+
+model Disease {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  expriments Expriment[]
+}
+
+model Expriment {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  diseaseId Int
+  sras      Sra[]
+  disease   Disease @relation(fields: [diseaseId], references: [id])
+}
+
+model Sra {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  exprimentId Int
+  expriment   Expriment @relation(fields: [exprimentId], references: [id])
+  genes       GeneSra[]
+}
+
+model Gene {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  geneSras GeneSra[]
+}
+
+model GeneSra {
+  geneId      Int
+  sraId       Int
+  value       Float
+  description String
+  gene        Gene   @relation(fields: [geneId], references: [id])
+  sra         Sra    @relation(fields: [sraId], references: [id])
+
+  @@id([geneId, sraId])
+}

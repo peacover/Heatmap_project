@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: peacover
+      POSTGRES_PASSWORD: testtest
+      POSTGRES_DB: heatmap_db
+    ports:
+      - "5432:5432"
