@@ -3,11 +3,15 @@
 import React, { useEffect, useState } from "react";
 import { VegaLite } from "react-vega";
 
-const MentalomeChart = () => {
+interface MentalomeChartProps {
+  result_val: any;
+}
+
+const MentalomeChart: React.FC<MentalomeChartProps> = ({result_val}) : any[] => {
   const [chartWidth, setChartWidth] = useState<number>(1000);
   const [chartHeight, setChartHeight] = useState<number>(500);
 
-
+  console.log("props", result_val);
   // const updateDimensions = () => {
   //   const container = document.getElementById("chart-container");
   //   if (container) {

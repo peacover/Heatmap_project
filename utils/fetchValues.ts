@@ -1,8 +1,11 @@
 import axios from "axios";
 
-const fetchValues = async (sra : string[]) => {
+const fetchValues = async (sra: string[], gene: string[]) => {
   try {
-    const response = await axios.get(`/api/GeneSraValues`);
+    const response = await axios.post("/api/GeneSraValues", {
+      sra: sra,
+      gene: gene,
+    });
     const data = await response.data;
     return data;
   } catch (error) {
