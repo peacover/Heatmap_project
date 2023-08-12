@@ -1,31 +1,26 @@
 import axios from "axios";
 
-const fetchData = async (props: { disease: string; expriment: string }) => {
+const fetchData = async ({ disease, expriment } : { disease: string, expriment: string }) => {
   try {
     // const { disease, expriment } = props;
-    const disease = (props.disease || "") as string;
-    const expriment = (props.expriment || "") as string;
-    if (disease === "" || expriment === "") {
-      const response = await axios.get(`/api/DiseaseValues`);
-      const data = await response.data;
-      return {
-        disease: data.disease,
-      };
-    } else if (disease && expriment === "") {
+    // const disease = disease as string;
+    // const expriment = (props[2] || "") as string;
+    
+    if (disease && expriment === "") {
       const response = await axios.get(`/api/MentalomeData?disease=${disease}`);
       const data = await response.data;
       return {
-        disease: data.disease,
         expriment: data.expriment,
+        sra: data.sra,
       };
+      // console.log("im heeeeere: ", data);
+      // return data;
     } else if (disease && expriment) {
       const response = await axios.get(
         `/api/MentalomeData?disease=${disease}&expriment=${expriment}`
       );
       const data = await response.data;
       return {
-        disease: data.disease,
-        expriment: data.expriment,
         sra: data.sra,
       };
     }

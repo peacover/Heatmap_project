@@ -1,6 +1,10 @@
 import fetchData from "@/utils/fetchData";
+import fetchDisease from "@/utils/fetchDisease";
+import fetchGeneNames from "@/utils/fetchGeneNames";
+// import fetchDisease from "@/utils/fetchDisease";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { use, useEffect, useState } from "react";
 
 export interface IFetchedData {
   disease: string[];
@@ -10,66 +14,66 @@ export interface IFetchedData {
 }
 
 const MentalomeInput = () => {
-  // const [gene_ids, setGene_ids] = useState<string[]>();
-
-  // const [disease, setDisease] = useState<string | null>(null);
-  // const [expriment, setExpriment] = useState<string>("");
-  // const [sra, setSra] = useState<string>();
-  // const [firstLoad, setFirstLoad] = useState<boolean>(true);
-
-  // const queryDisease = useQuery(
-  //   ["diseaseData", disease],
-  //   // fetchData.bind(null, { disease, expriment })
-  //   fetchData({ disease, expriment });
-  // );
-
-  // const fetchedData: IFetchedData | undefined = query_result.data;
-
-  // useEffect(() => {
-  //   if (
-  //     fetchedData &&
-  //     fetchedData.disease &&
-  //     fetchedData.disease.length > 0 &&
-  //     disease === null
-  //   ) {
-  //     setDisease(fetchedData.disease[0]);
-  //   }
-  // }, [fetchedData]);
-
-  // useEffect(() => {
-  //   if (firstLoad) {
-  //     setFirstLoad(false);
-  //     // set default values of gene_ids
-  //     setDisease(fetchedData.disease);
-  //   }
-  // }, [fetchedData]);
-
-  // if (query_result.isLoading) return <div>Loading...</div>;
-  // if (query_result.isError) return <div>Error fetching data</div>;
-
-  // console.log("Fetched data:", fetchedData);
-
-  // console.log(fetchedData);
-  const [disease, setDisease] = useState<string | null>(null);
-  const [expriment, setExpriment] = useState<string>("");
-  const [sra, setSra] = useState<string>("");
-
-  const { data: fetchedData, isLoading, isError } = useQuery(
-    ["diseaseData", disease],
-    () => fetchData({ disease: disease ?? "", expriment: expriment ?? "" })
-  );
+  const [disease, setDisease] = useState<string[]>([]);
+  const [gene, setGene] = useState<string[]>([]);
+  const [expriment, setExpriment] = useState<string[]>([]);
+  const [sra, setSra] = useState<string[]>([]);
+  const [selectedDisease, setSelectedDisease] = useState<string>("");
+  const [selectedExpriment, setSelectedExpriment] = useState<string>("");
+  const [selectedSra, setSelectedSra] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (fetchedData?.disease && fetchedData.disease.length > 0 && disease === null) {
-      setDisease(fetchedData.disease[0]);
+    if (disease.length === 0) {
+      fetchDisease().then((data: string[]) => {
+        setDisease(data);
+        setSelectedDisease(data[0]);
+      });
     }
-  }, [fetchedData, disease]);
+  }, [disease]);
 
-  // ...
+  useEffect(() => {
+    fetchGeneNames(currentPage).then((newGene) => {
+      setGene((prevGene) => [...prevGene, ...newGene]);
+      setLoading(false);
+    });
+  }, [currentPage]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error fetching data</div>;
+  useEffect(() => {
+    if (selectedDisease && selectedExpriment) {
+      fetchData({
+        disease: selectedDisease,
+        expriment: selectedExpriment,
+      }).then((data) => {
+        if (data && data.expriment && data.expriment.length > 0) {
+          setExpriment(() => [...data.expriment]);
+        }
+        if (data && data.sra && data.sra.length > 0) {
+          setSra(() => [...data.sra]);
+        }
+      });
+    } else if (selectedDisease) {
+      fetchData({ disease: selectedDisease, expriment: "" }).then((data) => {
+        if (data && data.expriment && data.expriment.length > 0) {
+          setExpriment(() => [...data.expriment]);
+        }
+        if (data && data.sra && data.sra.length > 0) {
+          setSra(() => [...data.sra]);
+        }
+      });
+    }
+  }, [selectedDisease, selectedExpriment]);
 
+  const handleScroll = (e: any) => {
+    if (
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight &&
+      !loading
+    ) {
+      setLoading(true);
+      setCurrentPage(currentPage + 1);
+    }
+  };
   return (
     <>
       {/* <div className="wow fadeInUp w-full mx-auto text-center mt-4"
@@ -96,62 +100,32 @@ const MentalomeInput = () => {
       </div> */}
 
       <form>
-        {/* <label htmlFor="gene_ids"> Gene IDS: </label>
-        <select name="" id="gene_ids" multiple></select>
-
+        <div
+          style={{ maxHeight: "300px", overflowY: "scroll" }}
+          onScroll={handleScroll}
+        >
+          <select multiple>
+            {gene ? (
+              gene.map((geneItem) => (
+                <option key={geneItem} value={geneItem}>
+                  {geneItem}
+                </option>
+              ))
+            ) : (
+              <option value="">Loading...</option>
+            )}
+          </select>
+        </div>
         <label htmlFor="disease"> Disease: </label>
         <select
           name="disease"
           id="disease"
-          onChange={(e) => setDisease(e.target.value)}
+          onChange={(e) => {
+            setSelectedDisease(e.target.value);
+          }}
         >
-          {fetchedData?.disease.map((diseaseItem : string) => (
-            <option key={diseaseItem} value={diseaseItem}>
-              {diseaseItem}
-            </option>
-          ))}
-        </select>
-
-        <label htmlFor="expriment"> Expriment: </label>
-        <select
-          name="expriment"
-          id="expriment"
-          onChange={(e) => setExpriment(e.target.value)}
-          defaultValue="All"
-        >
-          <option key="all_expriment" value="all_expriment">
-            All
-          </option>
-          {fetchedData?.expriment.map((exprimentItem : string) => (
-            <option key={exprimentItem} value={exprimentItem}>
-              {exprimentItem}
-            </option>
-          ))}
-        </select>
-        <label htmlFor="sra"> SRA: </label>
-        <select
-          name="sra"
-          id="sra"
-          onChange={(e) => setSra(e.target.value)}
-          defaultValue="All"
-        >
-          <option key="all_sra" value="all_sra">
-            All
-          </option>
-          {fetchedData?.sra.map((sraItem : string) => (
-            <option key={sraItem} value={sraItem}>
-              {sraItem}
-            </option>
-          ))}
-        </select> */}
-        <label htmlFor="disease"> Disease: </label>
-        <select
-          name="disease"
-          id="disease"
-          onChange={(e) => setDisease(e.target.value)}
-        >
-          {fetchedData?.disease ? (
-            fetchedData.disease.map((diseaseItem: string) => (
+          {disease ? (
+            disease.map((diseaseItem: string) => (
               <option key={diseaseItem} value={diseaseItem}>
                 {diseaseItem}
               </option>
@@ -160,47 +134,48 @@ const MentalomeInput = () => {
             <option value="">Loading...</option>
           )}
         </select>
-        <label htmlFor="expriment"> Expriment: </label>
+        <label htmlFor="expriment"> Experiment: </label>
         <select
           name="expriment"
           id="expriment"
-          onChange={(e) => setExpriment(e.target.value)}
+          onChange={(e) => setSelectedExpriment(e.target.value)}
           defaultValue="All"
         >
           <option key="all_expriment" value="all_expriment">
             All
           </option>
-          {fetchedData?.expriment ? (
-            fetchedData.expriment.map((exprimentItem: string) => (
-              <option key={exprimentItem} value={exprimentItem}>
-                {exprimentItem}
+          {expriment ? (
+            expriment.map((diseaseItem: string) => (
+              <option key={diseaseItem} value={diseaseItem}>
+                {diseaseItem}
               </option>
             ))
           ) : (
             <option value="">Loading...</option>
           )}
         </select>
+
         <label htmlFor="sra"> SRA: </label>
         <select
           name="sra"
           id="sra"
-          onChange={(e) => setSra(e.target.value)}
+          onChange={(e) => setSelectedSra(e.target.value)}
           defaultValue="All"
         >
           <option key="all_sra" value="all_sra">
             All
           </option>
-          {fetchedData?.sra ? (
-            fetchedData.sra.map((sraItem: string) => (
-              <option key={sraItem} value={sraItem}>
-                {sraItem}
+          {sra ? (
+            sra.map((diseaseItem: string) => (
+              <option key={diseaseItem} value={diseaseItem}>
+                {diseaseItem}
               </option>
             ))
           ) : (
             <option value="">Loading...</option>
           )}
         </select>
-        
+
         <button type="submit">Submit</button>
       </form>
     </>

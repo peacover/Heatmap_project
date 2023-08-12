@@ -1,5 +1,4 @@
 import { db } from "@/lib/db";
-import exp from "constants";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const GeneIdData = async (req: NextApiRequest, res: NextApiResponse) => {

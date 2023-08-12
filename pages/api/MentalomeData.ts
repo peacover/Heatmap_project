@@ -4,7 +4,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 const MentalomeData = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const disease = (req.query.disease || "") as string;
-    const expriment = (req.query.expriment || "") as string;
+    let expriment = (req.query.expriment || "") as string;
+    if (expriment === "all_expriment")
+      expriment = "";
     // const distinctDiseaseNames = await db.mentalome.findMany({
     //   distinct: ['disease'],
     //   select: {
@@ -106,7 +108,7 @@ const MentalomeData = async (req: NextApiRequest, res: NextApiResponse) => {
       });
       
       const exprimentNames = exprimentQuery.map(item => item.name);
-      const sraNames = exprimentQuery.map(item => item.sras).flat();
+      const sraNames = exprimentQuery.flatMap(item => item.sras.map(sra => sra.name));
       return (res.json({
         expriment: exprimentNames,
         sra: sraNames,
