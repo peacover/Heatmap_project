@@ -3,15 +3,24 @@
 import React, { useEffect, useState } from "react";
 import { VegaLite } from "react-vega";
 
-interface MentalomeChartProps {
-  result_val: any;
+interface ChartData {
+  geneName: string;
+  sraName: string;
+  value: number;
 }
 
-const MentalomeChart: React.FC<MentalomeChartProps> = ({result_val}) : any[] => {
+interface MentalomeChartProps {
+  test: ChartData[];
+}
+
+const MentalomeChart: React.FC<MentalomeChartProps> = ({ test }) => {
   const [chartWidth, setChartWidth] = useState<number>(1000);
   const [chartHeight, setChartHeight] = useState<number>(500);
 
-  console.log("props", result_val);
+  console.log("props", test);
+  if (!test) {
+    return null;
+  }
   // const updateDimensions = () => {
   //   const container = document.getElementById("chart-container");
   //   if (container) {
@@ -30,45 +39,27 @@ const MentalomeChart: React.FC<MentalomeChartProps> = ({result_val}) : any[] => 
   //     window.removeEventListener("resize", updateDimensions);
   //   };
   // }, []);
-  const gene_ids = [
-    "ENS0001",
-    "ENS0002",
-    "ENS0003",
-    "ENS0004",
-    "ENS0005",
-    "ENS0006",
-  ];
-  const sra = ["sra1", "sra2", "sra3", "sra4", "sra5", "sra6"];
-  const values = [
-    [2, 3, 5, 7, 11, 13], // ENS0001 values
-    [4, 6, 8, 10, 12, 14], // ENS0002 values
-    [1, 3, 5, 7, 9, 11], // ENS0003 values
-    [5, 7, 9, 11, 13, 15], // ENS0004 values
-    [3, 6, 9, 12, 15, 18], // ENS0005 values
-    [1, 2, 4, 5, 6, 7], // ENS0006 values
-  ];
 
-  // Prepare the data array
   const data: any[] = [];
-  gene_ids.forEach((gene_id, geneIndex) => {
-    sra.forEach((sraItem, sraIndex) => {
-      data.push({
-        gene_id,
-        sra: sraItem,
-        value: values[geneIndex][sraIndex],
-      });
+  const geneNames = test?.map((item) => item.geneName);
+  const sraNames = test?.map((item) => item.sraName);
+  test?.forEach((item) => {
+    data.push({
+      gene_id: item.geneName,
+      sra: item.sraName,
+      value: item.value,
     });
-  });
-
+  }
+  );
   const spec = {
-    // $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+    $schema: "https://vega.github.io/schema/vega-lite/v5.json",
     width: chartWidth,
     height: chartHeight,
     padding: 5,
     title: {
       text: "Mentalome Heatmap",
       anchor: "middle",
-      fontSize: 16,
+      fontSize: 30,
       frame: "group",
       offset: 4,
     },
@@ -81,13 +72,13 @@ const MentalomeChart: React.FC<MentalomeChartProps> = ({result_val}) : any[] => 
         field: "sra",
         type: "nominal",
         title: "SRA",
-        scale: { domain: sra },
+        scale: { domain: sraNames },
       },
       y: {
         field: "gene_id",
         type: "nominal",
         title: "Gene_ID",
-        scale: { domain: gene_ids },
+        scale: { domain: geneNames },
       },
       color: {
         field: "value",

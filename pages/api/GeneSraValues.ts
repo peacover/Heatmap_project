@@ -22,8 +22,8 @@ const GeneSraValues = async (req: NextApiRequest, res: NextApiResponse) => {
       });
       
       const valuesArray: { sraName: string; geneName: string; value: number }[] = values.map((item) => ({
-        sraName: item.sra.name,
         geneName: item.gene.name,
+        sraName: item.sra.name,
         value: item.value,
       }));
     // console.log("valuesArray: ", valuesArray);

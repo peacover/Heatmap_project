@@ -16,6 +16,12 @@ interface GeneOption {
   value: string;
   label: string;
 }
+interface ChartData {
+  sraName: string;
+  geneName: string;
+  value: number;
+}
+
 
 const MentalomeInput = () => {
   const [disease, setDisease] = useState<string[]>([]);
@@ -29,6 +35,7 @@ const MentalomeInput = () => {
   const [loading, setLoading] = useState(false);
   const [defaultGeneValues, setDefaultGeneValues] = useState<GeneOption[]>([]);
   const [selectedGene, setSelectedGene] = useState<string[]>([]);
+  const [chartData, setChartData] = useState<ChartData[] | null>(null);
 
   useEffect(() => {
     if (disease.length === 0) {
@@ -91,8 +98,8 @@ const MentalomeInput = () => {
       result_val = await fetchValues(sra, selectedGene);
     else
      result_val = await fetchValues(selectedSra, selectedGene);
-    console.log("before result_val", result_val);
-    <MentalomeChart result_val={result_val} />;
+    setChartData(result_val);
+    console.log("result_val", result_val);
   };
   // const [geneOptions, setGeneOptions] = useState<GeneOption[]>([]);
   
@@ -127,7 +134,10 @@ const MentalomeInput = () => {
       <div className="flex justify-center items-center">
         <form onSubmit={handleGetValues}>
           <Select
-            defaultValue={defaultGeneValues}
+            // defaultValue={gene.map((geneItem) => ({
+            //   value: geneItem,
+            //   label: geneItem,
+            // })).slice(0, 5)}
             isMulti
             options={gene.map((geneItem) => ({
               value: geneItem,
@@ -186,7 +196,7 @@ const MentalomeInput = () => {
             )}
           </select>
 
-          <label htmlFor="sra"> SRA: </label>
+          {/* <label htmlFor="sra"> SRA: </label>
           <select
             name="sra"
             id="sra"
@@ -204,11 +214,37 @@ const MentalomeInput = () => {
             ) : (
               <option value="">Loading...</option>
             )}
-          </select>
+          </select> */}
+          <Select
+            isMulti
+            defaultValue={[
+              { value: "all_sra", label: "All" },
+              ...sra.map((geneItem) => ({
+                value: geneItem,
+                label: geneItem,
+              })),
+            ]}
+            options={[
+              { value: "all_sra", label: "All" },
+              ...sra.map((geneItem) => ({
+                value: geneItem,
+                label: geneItem,
+              })),
+            ]}
+            onChange={(selectedOptions) => {
+              const selectedValues = selectedOptions.map((option) => option.value);
+              setSelectedSra(selectedValues);
+              console.log("heeere selectedValues", selectedValues);
+            }}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            // onMenuScrollToBottom={handleScrollToBottom}
+          />
 
           <button type="submit">Submit</button>
         </form>
       </div>
+      {chartData && <MentalomeChart test={chartData} />}
     </>
   );
 };
