@@ -99,7 +99,7 @@ const MentalomeInput = () => {
     <>
       <div className="flex justify-center items-center">
         <form onSubmit={handleGetValues}>
-          {/* <Select
+          <Select
             isMulti
             options={
               geneSearchOptions.length > 0
@@ -121,7 +121,7 @@ const MentalomeInput = () => {
             className="basic-multi-select"
             classNamePrefix="select"
             onMenuScrollToBottom={handleScrollToBottom}
-          /> */}
+          />
           <label htmlFor="disease"> Disease: </label>
           <select
             name="disease"

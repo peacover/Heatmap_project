@@ -23,7 +23,6 @@ export default function Home() {
       <QueryClientProvider client={queryClient}>
         <Header />
         <MentalomeInput />
-        <MentalomeChart />
         <ScrollToTop />
         <Footer />
       </QueryClientProvider>
