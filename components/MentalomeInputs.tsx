@@ -211,7 +211,7 @@ const MentalomeInput = () => {
           </button>
         </form>
       </div>
-      {chartData && <MentalomeChart geneValues={chartData} />}
+      { chartData && <MentalomeChart geneValues={chartData} />}
     </>
   );
 };
