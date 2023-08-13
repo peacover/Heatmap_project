@@ -8,19 +8,18 @@ interface ChartData {
   sraName: string;
   value: number;
 }
-
 interface MentalomeChartProps {
-  test: ChartData[];
+  geneValues: ChartData[];
 }
 
-const MentalomeChart: React.FC<MentalomeChartProps> = ({ test }) => {
+const MentalomeChart: React.FC<MentalomeChartProps> = ({ geneValues }) => {
+  if (!geneValues) {
+    return null;
+  }
+
   const [chartWidth, setChartWidth] = useState<number>(1000);
   const [chartHeight, setChartHeight] = useState<number>(500);
 
-  console.log("props", test);
-  if (!test) {
-    return null;
-  }
   // const updateDimensions = () => {
   //   const container = document.getElementById("chart-container");
   //   if (container) {
@@ -40,19 +39,11 @@ const MentalomeChart: React.FC<MentalomeChartProps> = ({ test }) => {
   //   };
   // }, []);
 
-  const data: any[] = [];
-  const geneNames = test?.map((item) => item.geneName);
-  const sraNames = test?.map((item) => item.sraName);
-  test?.forEach((item) => {
-    data.push({
-      gene_id: item.geneName,
-      sra: item.sraName,
-      value: item.value,
-    });
-  }
-  );
+  // const geneNames = geneValues?.map((item) => item.geneName);
+  // const sraNames = geneValues?.map((item) => item.sraName);
+
   const spec = {
-    $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+    // $schema: "https://vega.github.io/schema/vega-lite/v5.json",
     width: chartWidth,
     height: chartHeight,
     padding: 5,
@@ -64,21 +55,20 @@ const MentalomeChart: React.FC<MentalomeChartProps> = ({ test }) => {
       offset: 4,
     },
     data: {
-      values: data,
+      values: geneValues,
     },
-    mark: "rect",
     encoding: {
       x: {
-        field: "sra",
+        field: "sraName",
         type: "nominal",
         title: "SRA",
-        scale: { domain: sraNames },
+        // scale: { domain: sraNames },
       },
       y: {
-        field: "gene_id",
+        field: "geneName",
         type: "nominal",
         title: "Gene_ID",
-        scale: { domain: geneNames },
+        // scale: { domain: geneNames },
       },
       color: {
         field: "value",
@@ -87,7 +77,7 @@ const MentalomeChart: React.FC<MentalomeChartProps> = ({ test }) => {
         scale: { scheme: "redyellowblue" },
       },
     },
-  };
+  } as any;
 
   return (
     <div

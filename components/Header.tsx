@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Spline from "@splinetool/react-spline";
 
 const Header = () => {
@@ -8,7 +7,7 @@ const Header = () => {
         <div className="mx-auto p-6 px-8">
           <div className="flex justify-center items-center">
             <a href="/">
-              <Image
+              <img
                 src="/Heatmap_logo.svg"
                 alt="Heatmap Logo"
                 width={200}
