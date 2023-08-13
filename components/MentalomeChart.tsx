@@ -42,7 +42,7 @@ const MentalomeChart: React.FC<MentalomeChartProps> = ({ geneValues }) => {
   const geneNames = geneValues?.map((item) => item.geneName);
   const sraNames = geneValues?.map((item) => item.sraName);
 
-  const spec = {
+  const spec : any = {
     // $schema: "https://vega.github.io/schema/vega-lite/v5.json",
     width: chartWidth,
     height: chartHeight,
@@ -57,6 +57,7 @@ const MentalomeChart: React.FC<MentalomeChartProps> = ({ geneValues }) => {
     data: {
       values: geneValues,
     },
+    mark: "rect",
     encoding: {
       x: {
         field: "sraName",
@@ -82,7 +83,7 @@ const MentalomeChart: React.FC<MentalomeChartProps> = ({ geneValues }) => {
   return (
     <div
       id="chart-container"
-      // className="flex justify-center pt-[160px] pb-16 md:pb-[100px] lg:pt-[190px] lg:pb-[140px] max-w-xl mx-auto"
+      className="flex justify-center pt-[20px] pb-16 md:pb-[100px] max-w-xl mx-auto"
     >
       <VegaLite spec={spec} width={chartWidth} height={chartHeight} />
     </div>

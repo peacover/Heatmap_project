@@ -8,10 +8,6 @@ const fetchData = async ({
   expriment: string;
 }) => {
   try {
-    // const { disease, expriment } = props;
-    // const disease = disease as string;
-    // const expriment = (props[2] || "") as string;
-
     if (disease && expriment === "") {
       const response = await axios.get(`/api/MentalomeData?disease=${disease}`);
       const data = await response.data;

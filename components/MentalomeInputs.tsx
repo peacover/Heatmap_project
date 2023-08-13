@@ -7,12 +7,6 @@ import fetchValues from "@/utils/fetchValues";
 import MentalomeChart from "./MentalomeChart";
 import fetchSearchGene from "@/utils/fetchSearchGene";
 
-export interface IFetchedData {
-  disease: string[];
-  expriment: string[];
-  sra: string[];
-  status: number;
-}
 interface GeneOption {
   value: string;
   label: string;
@@ -97,9 +91,16 @@ const MentalomeInput = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center">
-        <form onSubmit={handleGetValues}>
+      <div className="flex justify-center items-center mb-[150px]">
+        <form
+          onSubmit={handleGetValues}
+          className="bg-body-color-dark p-8 rounded-lg shadow-md w-full sm:w-1/2 lg:w-1/3"
+        >
+          <label htmlFor="gene" className="block text-gray-700 font-medium">
+            Gene IDS:
+          </label>
           <Select
+            id="gene"
             isMulti
             options={
               geneSearchOptions.length > 0
@@ -118,49 +119,71 @@ const MentalomeInput = () => {
               );
               setSelectedGene(selectedValues);
             }}
-            className="basic-multi-select"
+            className="basic-multi-select mb-6"
             classNamePrefix="select"
             onMenuScrollToBottom={handleScrollToBottom}
           />
-          <label htmlFor="disease"> Disease: </label>
-          <select
-            name="disease"
-            id="disease"
-            onChange={(e) => {
-              setSelectedDisease(e.target.value);
-            }}
-          >
-            {disease ? (
-              disease.map((diseaseItem: string) => (
-                <option key={diseaseItem} value={diseaseItem}>
-                  {diseaseItem}
-                </option>
-              ))
-            ) : (
-              <option value="">Loading...</option>
-            )}
-          </select>
-          <label htmlFor="expriment"> Experiment: </label>
-          <select
-            name="expriment"
-            id="expriment"
-            onChange={(e) => setSelectedExpriment(e.target.value)}
-            defaultValue="All"
-          >
-            <option key="all_expriment" value="all_expriment">
-              All
-            </option>
-            {expriment ? (
-              expriment.map((diseaseItem: string) => (
-                <option key={diseaseItem} value={diseaseItem}>
-                  {diseaseItem}
-                </option>
-              ))
-            ) : (
-              <option value="">Loading...</option>
-            )}
-          </select>
+          <div className="flex items-center mb-6">
+          <div className="w-1/2 pr-4">
+            <label
+              htmlFor="disease"
+              className="block text-gray-700 font-medium"
+            >
+              Disease:
+            </label>
+            <select
+              name="disease"
+              id="disease"
+              onChange={(e) => {
+                setSelectedDisease(e.target.value);
+              }}
+              className="py-2 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 rounded-sm shadow-sm"
+            >
+              {disease ? (
+                disease.map((diseaseItem: string) => (
+                  <option key={diseaseItem} value={diseaseItem}>
+                    {diseaseItem}
+                  </option>
+                ))
+              ) : (
+                <option value="">Loading...</option>
+              )}
+            </select>
+            </div>
+            <div className="w-1/2 pl-4">
+            <label
+              htmlFor="expriment"
+              className="block text-gray-700 font-medium"
+            >
+              Experiment:
+            </label>
+            <select
+              name="expriment"
+              id="expriment"
+              onChange={(e) => setSelectedExpriment(e.target.value)}
+              defaultValue="All"
+              className="py-2 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 rounded-sm shadow-sm"
+            >
+              <option key="all_expriment" value="all_expriment">
+                All
+              </option>
+              {expriment ? (
+                expriment.map((diseaseItem: string) => (
+                  <option key={diseaseItem} value={diseaseItem}>
+                    {diseaseItem}
+                  </option>
+                ))
+              ) : (
+                <option value="">Loading...</option>
+              )}
+            </select>
+            </div>
+          </div>
+          <label htmlFor="sra" className="block text-gray-700 font-medium">
+            SRA:
+          </label>
           <Select
+            id="sra"
             isMulti
             defaultValue={{ value: "all_sra", label: "All" }}
             options={[
@@ -176,11 +199,16 @@ const MentalomeInput = () => {
               );
               setSelectedSra(selectedValues);
             }}
-            className="basic-multi-select"
+            className="basic-multi-select mb-6"
             classNamePrefix="select"
           />
 
-          <button type="submit">Submit</button>
+          <button
+            type="submit"
+            className="mt-4 w-full bg-accent text-white font-semibold py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200"
+          >
+            Submit
+          </button>
         </form>
       </div>
       {chartData && <MentalomeChart geneValues={chartData} />}

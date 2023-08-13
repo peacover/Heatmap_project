@@ -26,7 +26,6 @@ const GeneSraValues = async (req: NextApiRequest, res: NextApiResponse) => {
         sraName: item.sra.name,
         value: item.value,
       }));
-    // console.log("valuesArray: ", valuesArray);
     res.status(200).json(valuesArray);
   } catch (error) {
     console.error("Error fetching values:", error);
