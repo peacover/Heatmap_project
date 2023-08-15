@@ -20,11 +20,11 @@ const Header = () => {
       <div className="flex flex-col md:flex-row justify-between items-center">
         <section
           id="home"
-          className="relative pt-[160px] pb-16 md:pb-[100px] flex justify-center"
+          className="relative order-2 md:order-1 pb-16 md:py-16"
         >
           <div className="container">
             <div className="text-center md:ml-[120px]">
-              <h1 className="mb-5 text-2xl font-semibold leading-tight text-black md:text-3xl lg:text-4xl">
+              <h1 className="text-2xl font-semibold leading-tight text-black md:text-3xl lg:text-4xl">
                 <span className="text-accent font-bold">Mentalome: </span> Unveiling the
                 Complex Landscape of Psychiatric Disorders through Comprehensive
                 Transcriptome Analysis
@@ -33,7 +33,7 @@ const Header = () => {
           </div>
         </section>
         <Spline
-          className="max-w-5xl mx-auto md:mx-0"
+          className="max-w-5xl mx-auto order-1 mt-16 md:mt-0 md:mx-0 md:order-2"
           scene="https://prod.spline.design/dXBzmLGIHCotPwaw/scene.splinecode"
         />
       </div>

@@ -94,7 +94,7 @@ const MentalomeInput = () => {
       <div className="flex justify-center items-center mb-[150px]">
         <form
           onSubmit={handleGetValues}
-          className="bg-body-color-dark p-8 rounded-lg shadow-md w-full sm:w-1/2 lg:w-1/3"
+          className="bg-body-color-dark p-8 rounded-none sm:rounded-lg shadow-md w-full sm:w-1/2 "
         >
           <label htmlFor="gene" className="block text-gray-700 font-medium">
             Gene IDS:
@@ -123,60 +123,63 @@ const MentalomeInput = () => {
             classNamePrefix="select"
             onMenuScrollToBottom={handleScrollToBottom}
           />
-          <div className="flex items-center mb-6">
-          <div className="w-1/2 pr-4">
-            <label
-              htmlFor="disease"
-              className="block text-gray-700 font-medium"
-            >
-              Disease:
-            </label>
-            <select
-              name="disease"
-              id="disease"
-              onChange={(e) => {
-                setSelectedDisease(e.target.value);
-              }}
-              className="py-2 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 rounded-sm shadow-sm"
-            >
-              {disease ? (
-                disease.map((diseaseItem: string) => (
-                  <option key={diseaseItem} value={diseaseItem}>
-                    {diseaseItem}
-                  </option>
-                ))
-              ) : (
-                <option value="">Loading...</option>
-              )}
-            </select>
+          <div className="flex items-center mb-6 md:flex-row flex-col">
+            <div className="w-full mb-6 md:mb-0 md:w-1/2 md:pr-4">
+              <label
+                htmlFor="disease"
+                className="block text-gray-700 font-medium"
+              >
+                Disease:
+              </label>
+              <select
+                name="disease"
+                id="disease"
+                onChange={(e) => {
+                  setSelectedDisease(e.target.value);
+                }}
+                className="px-[7px] py-2 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 rounded-sm shadow-sm"
+              >
+                {disease ? (
+                  disease.map((diseaseItem: string) => (
+                    <option
+                      key={diseaseItem}
+                      value={diseaseItem}
+                    >
+                      {diseaseItem}
+                    </option>
+                  ))
+                ) : (
+                  <option value="">Loading...</option>
+                )}
+              </select>
             </div>
-            <div className="w-1/2 pl-4">
-            <label
-              htmlFor="expriment"
-              className="block text-gray-700 font-medium"
-            >
-              Experiment:
-            </label>
-            <select
-              name="expriment"
-              id="expriment"
-              onChange={(e) => setSelectedExpriment(e.target.value)}
-              defaultValue="All"
-              className="py-2 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 rounded-sm shadow-sm"
-            >
-              <option key="all_expriment" value="all_expriment">
-                All
-              </option>
-              {expriment ? (
-                expriment.map((diseaseItem: string) => (
-                  <option key={diseaseItem} value={diseaseItem}>
-                    {diseaseItem}
-                  </option>
-                ))
-              ) : (
-                <option value="">Loading...</option>
-              )}
-            </select>
+            <div className="w-full md:w-1/2 md:pl-4">
+              <label
+                htmlFor="expriment"
+                className="block text-gray-700 font-medium"
+              >
+                Experiment:
+              </label>
+              <select
+                name="expriment"
+                id="expriment"
+                onChange={(e) => setSelectedExpriment(e.target.value)}
+                defaultValue="All"
+                className="px-[7px] py-2 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 rounded-sm shadow-sm"
+              >
+                <option key="all_expriment" value="all_expriment">
+                  All
+                </option>
+                {expriment ? (
+                  expriment.map((exprimentItem: string) => (
+                    <option key={exprimentItem} value={exprimentItem}>
+                      {exprimentItem}
+                    </option>
+                  ))
+                ) : (
+                  <option value="">Loading...</option>
+                )}
+              </select>
             </div>
           </div>
           <label htmlFor="sra" className="block text-gray-700 font-medium">
@@ -211,7 +214,7 @@ const MentalomeInput = () => {
           </button>
         </form>
       </div>
-      { chartData && <MentalomeChart geneValues={chartData} />}
+      {chartData && <MentalomeChart geneValues={chartData} />}
     </>
   );
 };

@@ -67,7 +67,16 @@ const MentalomeChart: React.FC<MentalomeChartProps> = ({ geneValues }) => {
         field: "value",
         type: "quantitative",
         title: "Values",
-        scale: { scheme: "redyellowblue" },
+        // scale: { scheme: "redyellowblue" },
+        scale: {
+          range: [
+            "#63C1DF",
+            "#5F6FC2",
+            "#975FC2",
+            "#C3475D",
+            "#FF0000",
+          ],
+        },
       },
     },
     actions: false,
@@ -76,7 +85,7 @@ const MentalomeChart: React.FC<MentalomeChartProps> = ({ geneValues }) => {
   return (
     <div
       id="chart-container"
-      className="flex justify-center pt-[20px] pb-16 md:pb-[100px] max-w-xl mx-auto"
+      className="flex justify-center pt-[20px] pb-16 md:pb-[200px] max-w-xl mx-auto "
     >
       <VegaLite spec={spec} />
     </div>
