@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -29,6 +29,9 @@ dependencies:
   axios:
     specifier: ^1.4.0
     version: 1.4.0
+  d3-array:
+    specifier: ^3.2.4
+    version: 3.2.4
   eslint:
     specifier: 8.46.0
     version: 8.46.0
@@ -65,11 +68,17 @@ dependencies:
   vega:
     specifier: ^5.25.0
     version: 5.25.0
+  vega-embed:
+    specifier: ^6.22.2
+    version: 6.22.2(vega-lite@5.14.1)(vega@5.25.0)
   vega-lite:
     specifier: ^5.14.1
     version: 5.14.1(vega@5.25.0)
 
 devDependencies:
+  '@types/d3-array':
+    specifier: ^3.0.5
+    version: 3.0.5
   prisma:
     specifier: 5.1.1
     version: 5.1.1
@@ -582,6 +591,10 @@ packages:
     resolution: {integrity: sha512-KuwNhp3eza+Rhu8IFI5HUXRP0LIhqH5cAjubUvGXXthh4YYBuP2ntwEX+Cz8GJoZUHlKo247wPWOfA9LYEq4cw==}
     dependencies:
       '@types/node': 20.4.8
+    dev: true
+
+  /@types/d3-array@3.0.5:
+    resolution: {integrity: sha512-Qk7fpJ6qFp+26VeQ47WY0mkwXaiq8+76RJcncDEfMc2ocRzXLO67bLFRNI4OX1aGBoPzsM5Y2T+/m1pldOgD+A==}
     dev: true
 
   /@types/debug@4.1.8:

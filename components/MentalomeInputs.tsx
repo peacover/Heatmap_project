@@ -15,6 +15,7 @@ interface ChartData {
   sraName: string;
   geneName: string;
   value: number;
+  description: string;
 }
 
 const MentalomeInput = () => {

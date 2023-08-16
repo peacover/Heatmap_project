@@ -20,6 +20,7 @@
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "d3-array": "^3.2.4",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
     "next": "13.4.13",
@@ -32,9 +33,11 @@
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6",
     "vega": "^5.25.0",
+    "vega-embed": "^6.22.2",
     "vega-lite": "^5.14.1"
   },
   "devDependencies": {
+    "@types/d3-array": "^3.0.5",
     "prisma": "5.1.1",
     "prisma-erd-generator": "^1.8.0"
   }

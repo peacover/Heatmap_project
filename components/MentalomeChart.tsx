@@ -7,6 +7,7 @@ interface ChartData {
   geneName: string;
   sraName: string;
   value: number;
+  description: string;
 }
 interface MentalomeChartProps {
   geneValues: ChartData[];
@@ -30,58 +31,63 @@ const MentalomeChart: React.FC<MentalomeChartProps> = ({ geneValues }) => {
     };
   }, []);
 
-  const geneNames = geneValues?.map((item) => item.geneName);
-  const sraNames = geneValues?.map((item) => item.sraName);
-
+  const descriptionSet = new Set(geneValues.map((item) => item.description));
+  const description_filter = Array.from(descriptionSet);
   const spec: any = {
-    // $schema: "https://vega.github.io/schema/vega-lite/v5.json",
     width: chartWidth,
     height: chartHeight,
-    padding: 5,
-    title: {
-      text: "Mentalome Heatmap",
-      // anchor: "middle",
-      fontSize: 30,
-      // frame: "group",
-      // offset: 4,
-    },
     data: {
       values: geneValues,
     },
-    // mark: "rect",
-    mark: "bar",
+    padding: 5,
+    title: {
+      text: "Mentalome Heatmap",
+      fontSize: 30,
+    },
     encoding: {
       x: {
         field: "sraName",
         type: "nominal",
         title: "SRA",
-        scale: { domain: sraNames },
+        sort: "description",
       },
       y: {
         field: "geneName",
         type: "nominal",
         title: "Gene_ID",
-        scale: { domain: geneNames },
-      },
-      color: {
-        field: "value",
-        type: "quantitative",
-        title: "Values",
-        // scale: { scheme: "redyellowblue" },
-        scale: {
-          range: [
-            "#63C1DF",
-            "#5F6FC2",
-            "#975FC2",
-            "#C3475D",
-            "#FF0000",
-          ],
-        },
       },
     },
-    actions: false,
+    layer: [
+      {
+        mark: "rect",
+        encoding: {
+          color: {
+            field: "value",
+            type: "quantitative",
+            title: "Values",
+            scale: {
+              range: ["#63C1DF", "#5F6FC2", "#975FC2", "#C3475D", "#FF0000"],
+            },
+          },
+        },
+      },
+      {
+        transform: [
+          { filter: { field: "description", oneOf: description_filter } },
+        ],
+        mark: "circle",
+        encoding: {
+          color: {
+            field: "description",
+            title: "Abbreviation",
+            scale: {
+              range: ["#349c00", "#000"],
+            },
+          },
+        },
+      },
+    ],
   };
-
   return (
     <div
       id="chart-container"
