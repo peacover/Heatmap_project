@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import fetchValues from "@/utils/fetchValues";
 import MentalomeChart from "./MentalomeChart";
 import fetchSearchGene from "@/utils/fetchSearchGene";
+import test from "node:test";
 
 interface GeneOption {
   value: string;
@@ -32,6 +33,8 @@ const MentalomeInput = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [chartData, setChartData] = useState<ChartData[] | null>(null);
   const [geneSearchOptions, setSearchGeneOptions] = useState<GeneOption[]>([]);
+
+  const [defaultValue, setDefaultValue] = useState<GeneOption[]>([]);
 
   useEffect(() => {
     if (disease.length === 0) {
@@ -89,7 +92,18 @@ const MentalomeInput = () => {
     }));
     setSearchGeneOptions(geneSearchOptions);
   };
-
+  // if (defaultValue.length === 0) {
+  //   const hi = gene
+  //   .map((geneItem) => ({
+  //     value: geneItem,
+  //     label: geneItem,
+  //   }))
+  //   .slice(0, 5)
+  //   console.log(hi);
+  //   setDefaultValue([{label: "test", value:"test"}, {label: "test2", value:"test2"}]);
+  //   console.log("3afak: ", defaultValue);
+  // }
+  console.log("default values: ", defaultValue);
   return (
     <>
       <div className="flex justify-center items-center mb-[150px]">
@@ -103,6 +117,7 @@ const MentalomeInput = () => {
           <Select
             id="gene"
             isMulti
+            // defaultValue={defaultValue}
             options={
               geneSearchOptions.length > 0
                 ? geneSearchOptions
@@ -142,10 +157,7 @@ const MentalomeInput = () => {
               >
                 {disease ? (
                   disease.map((diseaseItem: string) => (
-                    <option
-                      key={diseaseItem}
-                      value={diseaseItem}
-                    >
+                    <option key={diseaseItem} value={diseaseItem}>
                       {diseaseItem}
                     </option>
                   ))

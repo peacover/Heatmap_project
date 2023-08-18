@@ -8,5 +8,7 @@ services:
       POSTGRES_USER: peacover
       POSTGRES_PASSWORD: testtest
       POSTGRES_DB: heatmap_db
+      # POSTGRES_DB: heatmap_db_updated
     ports:
       - "5432:5432"
+      # - "5436:5432"
