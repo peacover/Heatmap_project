@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import fetchValues from "@/utils/fetchValues";
 import MentalomeChart from "./MentalomeChart";
 import fetchSearchGene from "@/utils/fetchSearchGene";
-import test from "node:test";
 
 interface GeneOption {
   value: string;
@@ -92,18 +91,6 @@ const MentalomeInput = () => {
     }));
     setSearchGeneOptions(geneSearchOptions);
   };
-  // if (defaultValue.length === 0) {
-  //   const hi = gene
-  //   .map((geneItem) => ({
-  //     value: geneItem,
-  //     label: geneItem,
-  //   }))
-  //   .slice(0, 5)
-  //   console.log(hi);
-  //   setDefaultValue([{label: "test", value:"test"}, {label: "test2", value:"test2"}]);
-  //   console.log("3afak: ", defaultValue);
-  // }
-  console.log("default values: ", defaultValue);
   return (
     <>
       <div className="flex justify-center items-center mb-[150px]">

@@ -10,7 +10,7 @@ dependencies:
     version: 5.1.1(prisma@5.1.1)
   '@splinetool/react-spline':
     specifier: ^2.2.6
-    version: 2.2.6(@splinetool/runtime@0.9.418)(react-dom@18.2.0)(react@18.2.0)
+    version: 2.2.6(@splinetool/runtime@0.9.425)(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/react-query':
     specifier: 4.10.1
     version: 4.10.1(react-dom@18.2.0)(react@18.2.0)
@@ -83,7 +83,7 @@ devDependencies:
     specifier: 5.1.1
     version: 5.1.1
   prisma-erd-generator:
-    specifier: ^1.8.0
+    specifier: ^1.11.0
     version: 1.11.0(@prisma/client@5.1.1)(typescript@5.1.6)
 
 packages:
@@ -534,22 +534,22 @@ packages:
     resolution: {integrity: sha512-0xd7qez0AQ+MbHatZTlI1gu5vkG8r7MYRUJAHPAHJBmGLs16zpkrpAVLvjQKQOqaXPDUBwOiJzNc00znHSCVBw==}
     dev: false
 
-  /@splinetool/react-spline@2.2.6(@splinetool/runtime@0.9.418)(react-dom@18.2.0)(react@18.2.0):
+  /@splinetool/react-spline@2.2.6(@splinetool/runtime@0.9.425)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-y9L2VEbnC6FNZZu8XMmWM9YTTTWal6kJVfP05Amf0QqDNzCSumKsJxZyGUODvuCmiAvy0PfIfEsiVKnSxvhsDw==}
     peerDependencies:
       '@splinetool/runtime': '*'
       react: '>=17.0.0'
       react-dom: '>=17.0.0'
     dependencies:
-      '@splinetool/runtime': 0.9.418
+      '@splinetool/runtime': 0.9.425
       lodash.debounce: 4.0.8
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-merge-refs: 2.0.2
     dev: false
 
-  /@splinetool/runtime@0.9.418:
-    resolution: {integrity: sha512-jGkw+IKYcRSs08A9o7hdQq9BziM7pVSLKSSdNGNz0iH+io7/amCTuNg2mG+KBF5bglihqTPmC0VkrSv84iwcbw==}
+  /@splinetool/runtime@0.9.425:
+    resolution: {integrity: sha512-47HPaxXXjJTlG0Dj2SP575daIvL0cd7lKVYRWLSn1X8Ov7efAK6p7Ngw7E69o73PYc7auX0V8gdOXMPmRQJ2PA==}
     dependencies:
       on-change: 4.0.2
       semver-compare: 1.0.0
